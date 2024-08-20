@@ -1,5 +1,5 @@
 <script lang="ts">
-	import SignUpModal from '../views/signup/signUpModal.svelte';
+	import SignUpModal from '../views/home/signup/signUpModal.svelte';
 
 	let isOpen = false;
 </script>
@@ -27,7 +27,7 @@
 		</div>
 	</nav>
 
-	<SignUpModal title="test" open={isOpen} on:close={() => (isOpen = !isOpen)}>
-		<svelte:fragment slot="body">This is content inside my modal! 👋</svelte:fragment>
+	<SignUpModal title="Login" open={isOpen} on:close={() => (isOpen = !isOpen)}>
+		<svelte:fragment slot="body">Access to your space and read you're resume 👋</svelte:fragment>
 	</SignUpModal>
 </header>

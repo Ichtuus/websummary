@@ -1,6 +1,4 @@
 import { redirect } from '@sveltejs/kit';
-import { OAuth2Client } from 'google-auth-library';
-import { SECRET_CLIENT_ID, SECRET_CLIENT_SECRET } from '$env/static/private';
 import { actions } from '../+page.server';
 
 export const GET = async ({ url, cookies }) => {
