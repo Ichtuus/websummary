@@ -1,12 +1,6 @@
-import { redirect } from '@sveltejs/kit';
-
-export const load = async ({ fetch, session }) => {
+export const load = async ({ fetch }) => {
 	const response = await fetch('/api/oauth/verify');
 	const result = await response.json();
-
-	if (!result.connected) {
-		throw redirect(303, '/');
-	}
 
 	return {
 		props: {
