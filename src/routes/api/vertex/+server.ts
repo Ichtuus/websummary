@@ -2,6 +2,7 @@ import { GCP_LOCATION, GCP_PROJECT_ID, AI_PROMPT } from '$env/static/private';
 import { json, type RequestEvent } from '@sveltejs/kit';
 
 import { VertexAI } from '@google-cloud/vertexai';
+import { provideData } from '$lib/utils';
 
 const vertex_ai = new VertexAI({
 	project: GCP_PROJECT_ID,
@@ -46,5 +47,6 @@ async function getSummary(text: any) {
 export const POST = async (event: RequestEvent) => {
 	const requestData = await event.request.json();
 	const prediction = await getSummary(requestData);
+	provideData.push({prediction})
 	return json({ prediction });
 };

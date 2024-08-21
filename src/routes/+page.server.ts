@@ -10,7 +10,10 @@ export const actions = {
 	OAuth2: async ({}) => {
 		const authorizeURL = oAuth2Client.generateAuthUrl({
 			access_type: 'offline',
-			scope: 'https://www.googleapis.com/auth/userinfo.profile openid',
+			scope: [
+				'https://www.googleapis.com/auth/userinfo.profile openid',
+				'https://www.googleapis.com/auth/userinfo.email'
+			],
 			prompt: 'consent'
 		});
 		console.log('on est la');

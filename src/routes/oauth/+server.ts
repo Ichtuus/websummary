@@ -1,5 +1,6 @@
 import { redirect } from '@sveltejs/kit';
 import { actions } from '../+page.server';
+import prisma from '$lib/prisma';
 
 export const GET = async ({ url, cookies }) => {
 	const code = await url.searchParams.get('code');
@@ -11,6 +12,23 @@ export const GET = async ({ url, cookies }) => {
 	const tokens = await actions.getToken(code);
 
 	const userInfo = await actions.verifyIdToken(tokens.id_token as string);
+	// console.log('USER', userInfo);
+	const user = prisma.user.findUnique({
+		where: {
+			email: userInfo?.email
+		}
+	});
+
+	if (!user) {
+		await prisma.user.create({
+			data: {
+				name: userInfo?.name as string,
+				email: userInfo?.email as string,
+				access_token: tokens.access_token as string,
+				id_token: tokens.id_token as string
+			}
+		});
+	}
 
 	cookies.set('access_token', tokens.access_token, {
 		httpOnly: true,
