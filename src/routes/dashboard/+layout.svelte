@@ -1,10 +1,11 @@
 <script>
 	import Sidebar from '../../views/dashboard/components/sidebar.svelte';
+	import { HomeSolid, InboxSolid, CogSolid } from 'flowbite-svelte-icons';
 
 	const sidebarListItem = [
-		{ label: 'Dashboard', link: '/dashboard', icon: '' },
-		{ label: 'My resume', link: '/dashboard/myresume', icon: '' },
-		{ label: 'Parameter', link: '#', icon: '' }
+		{ label: 'Dashboard', link: '/dashboard', icon: HomeSolid },
+		{ label: 'My summaries', link: '/dashboard/mysummaries', icon: InboxSolid },
+		{ label: 'Parameter', link: '#', icon: CogSolid }
 	];
 </script>
 
@@ -35,7 +36,7 @@
 
 <div class="p-4 sm:ml-64">
 	<div class="p-4 rounded-lg">
-		<div class="p-4 items-center justify-center h-48 mb-4 rounded bg-gray-50">
+		<div class="items-center justify-center">
 			<slot />
 		</div>
 	</div>

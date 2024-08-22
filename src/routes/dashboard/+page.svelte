@@ -3,4 +3,6 @@
 	export let data;
 </script>
 
-<Dashboard {data} />
+<div class="p-4 h-48 rounded bg-gray-50">
+	<Dashboard {data} />
+</div>

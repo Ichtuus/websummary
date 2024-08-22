@@ -1,3 +1,4 @@
 export const ENDPOINTS = {
-	vertex: '/vertex'
+	vertex: '/vertex',
+	mysummaries: '/dashboard/mysummaries'
 };

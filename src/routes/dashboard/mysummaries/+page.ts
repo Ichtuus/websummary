@@ -1,5 +1,5 @@
 export const load = async ({ fetch }) => {
-	const response = await fetch('/dashboard/myresume');
+	const response = await fetch('/dashboard/mysummaries');
 	const result = await response.json();
 
 	return {

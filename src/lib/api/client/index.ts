@@ -1,4 +1,4 @@
-class HttpClient {
+export class HttpClient {
 	private baseUrl: string;
 
 	constructor(baseUrl: string = '/api') {
@@ -46,4 +46,4 @@ class HttpClient {
 	}
 }
 
-export const apiClient = new HttpClient();
+export const apiClient = new HttpClient('');
