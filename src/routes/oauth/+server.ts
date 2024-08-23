@@ -28,6 +28,16 @@ export const GET = async ({ url, cookies }) => {
 				id_token: tokens.id_token as string
 			}
 		});
+	} else {
+		await prisma.user.update({
+			where: {
+				email: userInfo?.email
+			},
+			data: {
+				access_token: tokens.access_token as string,
+				id_token: tokens.id_token as string
+			}
+		});
 	}
 
 	cookies.set('access_token', tokens.access_token, {

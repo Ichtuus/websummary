@@ -4,7 +4,7 @@
 
 	const sidebarListItem = [
 		{ label: 'Dashboard', link: '/dashboard', icon: HomeSolid },
-		{ label: 'My summaries', link: '/dashboard/mysummaries', icon: InboxSolid },
+		{ label: 'My summaries', link: '/dashboard/summaries', icon: InboxSolid },
 		{ label: 'Parameter', link: '#', icon: CogSolid }
 	];
 </script>

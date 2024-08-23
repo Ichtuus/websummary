@@ -1,19 +1,19 @@
 import { createHash } from 'crypto';
 
 class TemporarySummariesProviderService {
-	private summaries: Map<string, { id: string; prediction: string; title: string }>;
+	private summaries: Map<string, { id: string; prediction: string; title: string, url: string }>;
 
 	constructor() {
-		this.summaries = new Map<string, { id: string; prediction: string; title: string }>();
+		this.summaries = new Map<string, { id: string; prediction: string; title: string, url: string }>();
 	}
 
-	public addSummary({ prediction, srctitle }): boolean {
+	public addSummary({ prediction, srctitle, srcurl }): boolean {
 		const id = generateHashId(srctitle);
 		if (this.summaries.has(id)) {
 			console.log('already exist');
 			return false;
 		}
-		const summary = { id, prediction, title: srctitle };
+		const summary = { id, prediction, title: srctitle, url: srcurl };
 		this.summaries.set(id, summary);
 		return true;
 	}

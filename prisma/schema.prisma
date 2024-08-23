@@ -31,6 +31,10 @@ model User {
 
 model Summaries {
   id    Int    @id @default(autoincrement())
+  predictionId String
+  predictionTitle String
+  predictionText String
+  predictionUrl String
   createdAt DateTime @default(now())
   author User @relation(fields: [authorId], references: [id])
   authorId Int

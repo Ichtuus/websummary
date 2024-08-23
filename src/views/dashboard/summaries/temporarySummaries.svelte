@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { apiClient } from '$lib/api/client';
 	import { ENDPOINTS } from '$lib/api/client/endpoints';
-	import { InfoCircleOutline, ArrowRightOutline } from 'flowbite-svelte-icons';
+	import { InfoCircleOutline } from 'flowbite-svelte-icons';
 	import { useMutation } from '@sveltestack/svelte-query';
 	import SummaryActions from '../components/summaryActions.svelte';
 	import { ESummaryActions } from '../types';
@@ -24,16 +24,17 @@
 		}
 	];
 
-	const triggerActionForSummary = ({ detail }: CustomEvent, id: string) => {
+	const triggerActionForSummary = ({ detail }: CustomEvent, prediction: any) => {
 		switch (detail) {
 			case ESummaryActions.add:
 				console.log('action add');
+				add(prediction)
 				break;
 			case ESummaryActions.remove:
 				console.log('action remove');
-				remove(id);
+				remove(prediction.id);
 				//https://kit.svelte.dev/docs/modules#$app-navigation-invalidate
-				invalidate((url) => url.pathname === '/dashboard/mysummaries');
+				invalidate((url) => url.pathname === '/dashboard/summaries');
 				break;
 			default:
 				break;
@@ -41,30 +42,27 @@
 	};
 
 	const remove = async (predictionId: string) => {
-		$mutation.mutate(predictionId);
+		$removemutation.mutate(predictionId);
 	};
 
-	const mutation = useMutation(async (predictionId: string) => {
-		return await apiClient.delete(`${ENDPOINTS.mysummaries}/${predictionId}`);
+	const add = async (summary: any) => {
+		$addmutation.mutate(summary)
+	}
+
+	const removemutation = useMutation(async (predictionId: string) => {
+		return await apiClient.delete(`${ENDPOINTS.summaries}/${predictionId}`);
+	});
+
+	const addmutation = useMutation(async (prediction: any) => {
+		return await apiClient.post(`${ENDPOINTS.summaries}`, {prediction});
 	});
 </script>
 
 {#if data.props.prediction.length > 0}
 	<p class="text-teal-600 text-xs inline-flex items-center">
-		<InfoCircleOutline />All summaries display here has not save in your dashboard, if you want to
+		<InfoCircleOutline class="mr-1"/>All summaries display here has not save in your dashboard, if you want to
 		save click on <strong class="ml-1 mr-1"> add </strong> button
 	</p>
-{:else}
-	<div class="grid place-items-center h-screen">
-		<p class="text-center">
-			Install the chrome extention to extract content on linkedin or articles <br />
-			<a
-				href="#"
-				class="font-medium text-blue-600 dark:text-blue-500 hover:underline inline-flex items-center"
-				>Go <ArrowRightOutline /></a
-			>
-		</p>
-	</div>
 {/if}
 
 {#each data.props.prediction as prediction}
@@ -72,12 +70,19 @@
 		<div class="mb-3 resume-actions">
 			<SummaryActions
 				{actions}
-				isLoading={$mutation.isLoading}
-				on:action-selected={(emitedEvent) => triggerActionForSummary(emitedEvent, prediction.id)}
+				isLoading={$removemutation.isLoading}
+				on:action-selected={(emitedEvent) => triggerActionForSummary(emitedEvent, prediction)}
 			/>
 		</div>
 
-		<h2 class="text-2xl font-extrabold mb-3">{prediction.title}</h2>
-		<p>{prediction.prediction}</p>
+		<div class="temporary-summary">
+			<h2 class="text-2xl font-extrabold mb-3">{prediction.title}</h2>
+			<p class="mb-3">{prediction.prediction}</p>
+			<a
+				target="_blank"
+				class="font-medium text-blue-600 dark:text-blue-500 hover:underline inline-flex items-center"
+				href={prediction.url}>Source</a
+			>
+		</div>
 	</div>
 {/each}

@@ -32,5 +32,16 @@ export const actions = {
 		const { tokens } = await oAuth2Client.getToken(code);
 		oAuth2Client.setCredentials(tokens);
 		return tokens;
+	},
+
+	getUserInfo: async (accessToken: string) => {
+		// Fetch user info from Google's userinfo endpoint
+		const response = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
+			headers: {
+				Authorization: `Bearer ${accessToken}`
+			}
+		});
+		const userInfo = await response.json();
+		return userInfo;
 	}
 };
