@@ -1,4 +1,5 @@
-import { PrismaClient } from '@prisma/client'
+import { PrismaClient } from '@prisma/client';
+import { UserService } from '$lib/services/userService/index';
 
-const prisma = new PrismaClient()
-export default prisma
+export const prisma = new PrismaClient();
+export const userService = new UserService();

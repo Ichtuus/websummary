@@ -1,6 +1,6 @@
 import { redirect } from '@sveltejs/kit';
 import { actions } from '../+page.server';
-import prisma from '$lib/prisma';
+import { prisma, userService } from '$lib/prisma';
 
 export const GET = async ({ url, cookies }) => {
 	const code = await url.searchParams.get('code');
@@ -12,13 +12,18 @@ export const GET = async ({ url, cookies }) => {
 	const tokens = await actions.getToken(code);
 
 	const userInfo = await actions.verifyIdToken(tokens.id_token as string);
-	// console.log('USER', userInfo);
+	// const user = await userService.getUser(userInfo);
+
 	const user = prisma.user.findUnique({
 		where: {
 			email: userInfo?.email
 		}
 	});
-
+	// if (!user) {
+	// 	await userService.addUser(user, tokens);
+	// } else {
+	// 	await userService.updateUser(user, tokens);
+	// }
 	if (!user) {
 		await prisma.user.create({
 			data: {
@@ -29,6 +34,7 @@ export const GET = async ({ url, cookies }) => {
 			}
 		});
 	} else {
+		// Mettre à jour les tokens si l'utilisateur existe déjà
 		await prisma.user.update({
 			where: {
 				email: userInfo?.email
