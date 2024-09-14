@@ -1,14 +1,18 @@
-<script>
+<script lang="ts">
 	import { ArrowRightOutline } from 'flowbite-svelte-icons';
 	import TemporarySummaries from './temporarySummaries.svelte';
 	import Summaries from './summaries.svelte';
-	export let data;
+	import type { Summary, TemporaryPrediction } from '../types';
+
+	export let data: {
+		props: { temporariesPrediction: TemporaryPrediction[]; summaries: Summary[] };
+	};
 </script>
 
 {#if data.props.temporariesPrediction.length > 0}
 	<div class="temporary-summaries">
 		<h2 class="text-3xl mb-3">Temporary summaries</h2>
-		<TemporarySummaries {data} />
+		<TemporarySummaries temporariesPrediction={data.props.temporariesPrediction} />
 	</div>
 {:else if data.props.summaries.length > 0}
 	<h2 class="text-3xl mb-3">Summaries</h2>

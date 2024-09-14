@@ -1,11 +1,13 @@
+import type { Summary, TemporaryPrediction } from '../../../views/dashboard/types';
+
 export const load = async ({ fetch }) => {
 	const response = await fetch('/dashboard/summaries');
-	const result = await response.json();
-	console.log('/dashboard/summaries result', result);
+	const {
+		temporariesPrediction,
+		summaries
+	}: { temporariesPrediction: TemporaryPrediction[]; summaries: Summary[] } = await response.json();
+	console.log('/dashboard/summaries result', temporariesPrediction, summaries);
 	return {
-		props: {
-			temporariesPrediction: result.temporariesPrediction,
-			summaries: result.summaries
-		}
+		props: { temporariesPrediction, summaries }
 	};
 };

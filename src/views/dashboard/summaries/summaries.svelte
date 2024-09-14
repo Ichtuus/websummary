@@ -1,12 +1,8 @@
-<script>
-	import { onMount } from 'svelte';
+<script lang="ts">
 	import { fade } from 'svelte/transition';
+	import type { Summary } from '../types';
 
-	export let summaries = [];
-
-	onMount(() => {
-		// Ici, vous pourriez ajouter une logique pour charger les résumés si nécessaire
-	});
+	export let summaries: Summary[] = [];
 </script>
 
 <div class="summaries-container">
@@ -21,7 +17,7 @@
 					rel="noopener noreferrer"
 					class="text-blue-500 hover:underline"
 				>
-					Lire l'article original
+					Read the original article
 				</a>
 			</li>
 		{/each}

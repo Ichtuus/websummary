@@ -4,10 +4,10 @@
 	import { InfoCircleOutline } from 'flowbite-svelte-icons';
 	import { useMutation } from '@sveltestack/svelte-query';
 	import SummaryActions from '../components/summaryActions.svelte';
-	import { ESummaryActions } from '../types';
+	import { ESummaryActions, type TemporaryPrediction } from '../types';
 	import { invalidate } from '$app/navigation';
 
-	export let data;
+	export let temporariesPrediction: TemporaryPrediction[];
 
 	const actions = [
 		{
@@ -24,7 +24,7 @@
 		}
 	];
 
-	const triggerActionForSummary = ({ detail }: CustomEvent, prediction: any) => {
+	const triggerActionForSummary = ({ detail }: CustomEvent, prediction: TemporaryPrediction) => {
 		switch (detail) {
 			case ESummaryActions.add:
 				console.log('action add');
@@ -53,19 +53,19 @@
 		return await apiClient.delete(`${ENDPOINTS.summaries}/${predictionId}`);
 	});
 
-	const addmutation = useMutation(async (prediction: any) => {
+	const addmutation = useMutation(async (prediction: TemporaryPrediction) => {
 		return await apiClient.post(`${ENDPOINTS.summaries}`, { prediction });
 	});
 </script>
 
-{#if data.props.prediction.length > 0}
+{#if temporariesPrediction.length > 0}
 	<p class="text-teal-600 text-xs inline-flex items-center">
 		<InfoCircleOutline class="mr-1" />All summaries display here has not save in your dashboard, if
 		you want to save click on <strong class="ml-1 mr-1"> add </strong> button
 	</p>
 {/if}
 
-{#each data.props.temporariesPrediction as temporaryPrediction}
+{#each temporariesPrediction as temporaryPrediction}
 	<div class="p-4 mb-6 rounded bg-gray-50">
 		<div class="mb-3 resume-actions">
 			<SummaryActions
