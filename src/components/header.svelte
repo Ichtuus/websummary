@@ -12,14 +12,15 @@
 			</a>
 		</div>
 
-		<div class="lg:flex lg:gap-x-12">
+		<!-- <div class="lg:flex lg:gap-x-12">
 			<a href="#" class="text-sm font-semibold leading-6 text-gray-900">Product</a>
 			<a href="#" class="text-sm font-semibold leading-6 text-gray-900">Features</a>
 			<a href="#" class="text-sm font-semibold leading-6 text-gray-900">Marketplace</a>
 			<a href="#" class="text-sm font-semibold leading-6 text-gray-900">Company</a>
-		</div>
+		</div> -->
 		<div class="lg:flex lg:flex-1 lg:justify-end">
 			<button
+				data-test="btn-login"
 				on:click={() => (isOpen = !isOpen)}
 				class="text-sm font-semibold leading-6 text-gray-900"
 				>Log in
@@ -27,7 +28,12 @@
 		</div>
 	</nav>
 
-	<SignUpModal title="Login" open={isOpen} on:close={() => (isOpen = !isOpen)}>
+	<SignUpModal
+		title="Login"
+		open={isOpen}
+		on:close={() => (isOpen = !isOpen)}
+		data-testid="modal-signup"
+	>
 		<svelte:fragment slot="body">Access to your space and read you're resume 👋</svelte:fragment>
 	</SignUpModal>
 </header>

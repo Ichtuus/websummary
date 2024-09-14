@@ -28,7 +28,7 @@
 		switch (detail) {
 			case ESummaryActions.add:
 				console.log('action add');
-				add(prediction)
+				add(prediction);
 				break;
 			case ESummaryActions.remove:
 				console.log('action remove');
@@ -46,42 +46,43 @@
 	};
 
 	const add = async (summary: any) => {
-		$addmutation.mutate(summary)
-	}
+		$addmutation.mutate(summary);
+	};
 
 	const removemutation = useMutation(async (predictionId: string) => {
 		return await apiClient.delete(`${ENDPOINTS.summaries}/${predictionId}`);
 	});
 
 	const addmutation = useMutation(async (prediction: any) => {
-		return await apiClient.post(`${ENDPOINTS.summaries}`, {prediction});
+		return await apiClient.post(`${ENDPOINTS.summaries}`, { prediction });
 	});
 </script>
 
 {#if data.props.prediction.length > 0}
 	<p class="text-teal-600 text-xs inline-flex items-center">
-		<InfoCircleOutline class="mr-1"/>All summaries display here has not save in your dashboard, if you want to
-		save click on <strong class="ml-1 mr-1"> add </strong> button
+		<InfoCircleOutline class="mr-1" />All summaries display here has not save in your dashboard, if
+		you want to save click on <strong class="ml-1 mr-1"> add </strong> button
 	</p>
 {/if}
 
-{#each data.props.prediction as prediction}
+{#each data.props.temporariesPrediction as temporaryPrediction}
 	<div class="p-4 mb-6 rounded bg-gray-50">
 		<div class="mb-3 resume-actions">
 			<SummaryActions
 				{actions}
 				isLoading={$removemutation.isLoading}
-				on:action-selected={(emitedEvent) => triggerActionForSummary(emitedEvent, prediction)}
+				on:action-selected={(emitedEvent) =>
+					triggerActionForSummary(emitedEvent, temporaryPrediction)}
 			/>
 		</div>
 
 		<div class="temporary-summary">
-			<h2 class="text-2xl font-extrabold mb-3">{prediction.title}</h2>
-			<p class="mb-3">{prediction.prediction}</p>
+			<h2 class="text-2xl font-extrabold mb-3">{temporaryPrediction.title}</h2>
+			<p class="mb-3">{temporaryPrediction.prediction}</p>
 			<a
 				target="_blank"
 				class="font-medium text-blue-600 dark:text-blue-500 hover:underline inline-flex items-center"
-				href={prediction.url}>Source</a
+				href={temporaryPrediction.url}>Source</a
 			>
 		</div>
 	</div>

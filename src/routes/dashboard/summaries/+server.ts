@@ -1,10 +1,16 @@
 import { json, type RequestEvent } from '@sveltejs/kit';
 import { temporarySummariesProvider } from '$lib/temporarySummaries/services/temporarySummariesProvider.provider';
-import prisma from '$lib/prisma';
+import { prisma } from '$lib/prisma';
 import { actions } from '../../+page.server';
+import { summariesProviderService } from '$lib/summaries/services/summariesProvider.provider';
 
-export const GET = async ({ url }) => {
-	return json(temporarySummariesProvider.getSummaries());
+export const GET = async (event: RequestEvent) => {
+	const accessToken = event.cookies.get('access_token');
+
+	return json({
+		temporariesPrediction: temporarySummariesProvider.getSummaries(),
+		summaries: await summariesProviderService.getSummaries(accessToken as string)
+	});
 };
 
 export const POST = async (event: RequestEvent) => {
@@ -30,12 +36,12 @@ export const POST = async (event: RequestEvent) => {
 
 		const existingSummary = await prisma.summaries.findFirst({
 			where: {
-				predictionId: id 
+				predictionId: id
 			}
 		});
 
 		if (existingSummary) {
-			return json({ message: 'Summary already exists.' }, { status: 409 }); 
+			return json({ message: 'Summary already exists.' }, { status: 409 });
 		}
 
 		await prisma.summaries.create({
@@ -50,7 +56,7 @@ export const POST = async (event: RequestEvent) => {
 			}
 		});
 
-		temporarySummariesProvider.removeSummary(id)
+		temporarySummariesProvider.removeSummary(id);
 		return json({ message: 'Summary added successfully.' }, { status: 200 });
 	} catch (error) {
 		console.error('Error while adding summary:', error);
