@@ -24,7 +24,7 @@
 		}
 	];
 
-	const triggerActionForSummary = ({ detail }: CustomEvent, prediction: TemporaryPrediction) => {
+	const triggerActionForSummaryAction = ({ detail }: CustomEvent, prediction: TemporaryPrediction) => {
 		switch (detail) {
 			case ESummaryActions.add:
 				console.log('action add');
@@ -72,7 +72,7 @@
 				{actions}
 				isLoading={$removemutation.isLoading}
 				on:action-selected={(emitedEvent) =>
-					triggerActionForSummary(emitedEvent, temporaryPrediction)}
+					triggerActionForSummaryAction(emitedEvent, temporaryPrediction)}
 			/>
 		</div>
 

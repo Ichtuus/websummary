@@ -5,6 +5,7 @@ export enum ESummaryActions {
 
 export interface Summary {
 	id: string;
+	predictionId: string;
 	predictionTitle: string;
 	predictionText: string;
 	predictionUrl: string;

@@ -12,7 +12,7 @@
 		disabled={isLoading}
 		class:pointer-events-none={isLoading}
 		class:disabled:opacity-75={isLoading}
-		on:click={() => dispatch(EmitedEventName.SELECTED_ACTIONS, action.type)}
+		on:click={() => dispatch(EmitedEventName.SELECTED_ACTIONS_TO_TEMPORARY_SUMMARY, action.type)}
 		type="button"
 		class={action.class}
 	>

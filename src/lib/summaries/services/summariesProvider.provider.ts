@@ -18,6 +18,12 @@ class SummariesProviderService {
 		}
 		return user.summaries;
 	}
+
+	public async removeSummary(summaryId: number) {
+		await prisma.summaries.delete({
+			where: { id: summaryId }
+		});
+	}
 }
 
 export const summariesProviderService = new SummariesProviderService();
