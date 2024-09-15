@@ -19,11 +19,7 @@ export const GET = async ({ url, cookies }) => {
 			email: userInfo?.email
 		}
 	});
-	// if (!user) {
-	// 	await userService.addUser(user, tokens);
-	// } else {
-	// 	await userService.updateUser(user, tokens);
-	// }
+
 	if (!user) {
 		await prisma.user.create({
 			data: {

@@ -1,38 +1,68 @@
 <script lang="ts">
 	import { fade } from 'svelte/transition';
-	import type { Summary } from '../types';
-	import { createEventDispatcher } from 'svelte';
-	import { EmitedEventName } from '../constant';
+	import { ESummaryActions, type Summary } from '../types';
+	import { actions } from '../constant';
+	import SummaryActions from '../components/summaryActions.svelte';
+	import { useMutation } from '@sveltestack/svelte-query';
+	import { apiClient } from '$lib/api/client';
+	import { ENDPOINTS } from '$lib/api/client/endpoints';
+	import { invalidate } from '$app/navigation';
 
 	export let summaries: Summary[] = [];
 
-	const dispatch = createEventDispatcher();
+	const triggerActionForSummaryAction = ({ detail }: CustomEvent, prediction: Summary) => {
+		switch (detail) {
+			case ESummaryActions.add:
+				console.log('action add summary');
+				add(prediction);
+				break;
+			case ESummaryActions.remove:
+				console.log('action remove summary');
+				remove(prediction.id);
+				//https://kit.svelte.dev/docs/modules#$app-navigation-invalidate
+				invalidate((url) => url.pathname === '/dashboard/summaries');
+				break;
+			default:
+				break;
+		}
+	};
+
+	const remove = async (predictionId: string) => {
+		$removemutation.mutate(predictionId);
+	};
+
+	const add = async (summary: any) => {
+		$addmutation.mutate(summary);
+	};
+
+	const removemutation = useMutation(async (predictionId: string) => {
+		return await apiClient.delete(`${ENDPOINTS.summaries}/${predictionId}?mode=summary`);
+	});
+
+	const addmutation = useMutation(async (prediction: Summary) => {
+		return await apiClient.post(`${ENDPOINTS.summaries}`, { prediction });
+	});
 </script>
 
 <div class="summaries-container">
-	<ul class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-		{#each summaries as summary (summary.id)}
-			<li transition:fade class="bg-white shadow-md rounded-lg p-4">
-				<h3 class="text-xl font-semibold mb-2">{summary.predictionTitle}</h3>
-				<p class="text-gray-600 mb-4">{summary.predictionText}</p>
-
-				<div class="actions-container mt-4 mb-2 flex justify-between items-center">
-					<a
-						href={summary.predictionUrl}
-						target="_blank"
-						rel="noopener noreferrer"
-						class="text-blue-500 hover:underline"
-					>
-						Read the original article
-					</a>
-					<button
-						class="text-red-500 hover:text-red-700 font-medium"
-						on:click={() => dispatch(EmitedEventName.REMOVE_ACTIONSSUMMARY, summary.id)}
-					>
-						Remove
-					</button>
-				</div>
-			</li>
-		{/each}
-	</ul>
+	{#each summaries as summary (summary.id)}
+		<div class="p-4 mb-6 rounded bg-gray-50">
+			<div class="mb-3 resume-actions">
+				<SummaryActions
+					{actions}
+					isLoading={$removemutation.isLoading}
+					on:action-selected={(emitedEvent) => triggerActionForSummaryAction(emitedEvent, summary)}
+				/>
+			</div>
+			<div class="summary">
+				<h2 class="text-2xl font-extrabold mb-3">{summary.predictionTitle}</h2>
+				<p class="mb-3">{summary.predictionText}</p>
+				<a
+					target="_blank"
+					class="font-medium text-blue-600 dark:text-blue-500 hover:underline inline-flex items-center"
+					href={summary.predictionUrl}>Read the original article</a
+				>
+			</div>
+		</div>
+	{/each}
 </div>

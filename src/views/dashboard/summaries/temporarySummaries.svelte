@@ -6,32 +6,21 @@
 	import SummaryActions from '../components/summaryActions.svelte';
 	import { ESummaryActions, type TemporaryPrediction } from '../types';
 	import { invalidate } from '$app/navigation';
+	import { actions } from '../constant';
 
 	export let temporariesPrediction: TemporaryPrediction[];
 
-	const actions = [
-		{
-			label: 'Add',
-			type: ESummaryActions.add,
-			class:
-				'px-3 py-2 text-green-700 font-medium text-xs hover:text-white border border-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm text-center me-2 mb-2 dark:border-green-500 dark:text-green-500 dark:hover:text-white dark:hover:bg-green-600 dark:focus:ring-green-800'
-		},
-		{
-			label: 'Remove',
-			type: ESummaryActions.remove,
-			class:
-				'px-3 py-2 text-xs font-medium text-center text-white bg-red-700 hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300 rounded-lg'
-		}
-	];
-
-	const triggerActionForSummaryAction = ({ detail }: CustomEvent, prediction: TemporaryPrediction) => {
+	const triggerActionForTemporarySummaryAction = (
+		{ detail }: CustomEvent,
+		prediction: TemporaryPrediction
+	) => {
 		switch (detail) {
 			case ESummaryActions.add:
-				console.log('action add');
+				console.log('action add temporarySummary');
 				add(prediction);
 				break;
 			case ESummaryActions.remove:
-				console.log('action remove');
+				console.log('action remove temporarySummary');
 				remove(prediction.id);
 				//https://kit.svelte.dev/docs/modules#$app-navigation-invalidate
 				invalidate((url) => url.pathname === '/dashboard/summaries');
@@ -72,7 +61,7 @@
 				{actions}
 				isLoading={$removemutation.isLoading}
 				on:action-selected={(emitedEvent) =>
-					triggerActionForSummaryAction(emitedEvent, temporaryPrediction)}
+					triggerActionForTemporarySummaryAction(emitedEvent, temporaryPrediction)}
 			/>
 		</div>
 
@@ -82,7 +71,7 @@
 			<a
 				target="_blank"
 				class="font-medium text-blue-600 dark:text-blue-500 hover:underline inline-flex items-center"
-				href={temporaryPrediction.url}>Source</a
+				href={temporaryPrediction.url}>Read the original article</a
 			>
 		</div>
 	</div>

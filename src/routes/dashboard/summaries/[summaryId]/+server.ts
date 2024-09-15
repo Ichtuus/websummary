@@ -12,6 +12,6 @@ export const DELETE = async ({ params, url }) => {
 		return json({ message: 'Summary removed successfully.' }, { status: 200 });
 	} else {
 		temporarySummariesProvider.removeSummary(summaryId);
-		return json({ message: 'Summary deleted successfully.' });
+		return json({ message: 'Temporary summary removed successfully.' }, { status: 200 });
 	}
 };
