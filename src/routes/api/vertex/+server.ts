@@ -1,9 +1,10 @@
 import { GCP_LOCATION, GCP_PROJECT_ID, AI_PROMPT } from '$env/static/private';
-import { json, type RequestEvent } from '@sveltejs/kit';
+import { json, type RequestEvent, error } from '@sveltejs/kit';
 
 import { VertexAI } from '@google-cloud/vertexai';
 import { temporarySummariesProvider } from '$lib/temporarySummaries/services/temporarySummariesProvider.provider';
-
+import { userService } from '$lib/prisma';
+import { actions } from '../../+page.server';
 
 const vertex_ai = new VertexAI({
 	project: GCP_PROJECT_ID,
@@ -45,16 +46,23 @@ async function getSummary(text: any) {
 }
 
 export const POST = async (event: RequestEvent) => {
+	const accessToken = event.cookies.get('access_token');
+	const userInfo = await actions.getUserInfo(accessToken as string);
 	const { srctext, srctitle, srcurl } = await event.request.json();
 	// const prediction = await getSummary(srctext);
 	const prediction =
 		'Arthur Cadre, danseur, contorsionniste et architecte français, est l\'artiste principal de la cérémonie de clôture des Jeux olympiques de Paris 2024. Ce performer hors du commun, connu pour ses acrobaties extraordinaires, incarne le "golden voyageur" dans le spectacle imaginé par Thomas Jolly. Cadre, qui a déjà participé à des événements de grande envergure comme La Perle à Dubaï, est un artiste polyvalent et reconnu, ayant travaillé dans le monde entier. Il a accepté la proposition de Jolly deux mois avant le spectacle, attiré par la liberté créative offerte et la possibilité de collaborer avec un artiste qu\'il admire.';
+	const canProceed = await userService.checkAndUpdateUserCalls(userInfo.email);
+
+	if (!canProceed) {
+		return error(403, { message: 'User has no more calls.' });
+	}
+
 	const isSummaryAdded = temporarySummariesProvider.addSummary({ prediction, srctitle, srcurl });
 
 	if (!isSummaryAdded) {
-		return json({ message: 'Conflict: Summary already exists.' }, { status: 409 });
+		return error(409, { message: 'Conflict: Summary already exists.' });
 	}
-
 
 	return json({ prediction });
 };

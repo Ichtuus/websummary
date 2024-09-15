@@ -1,4 +1,4 @@
-import { redirect } from '@sveltejs/kit';
+import { redirect, error } from '@sveltejs/kit';
 
 import { OAuth2Client } from 'google-auth-library';
 import { SECRET_CLIENT_ID, SECRET_CLIENT_SECRET } from '$env/static/private';
@@ -41,6 +41,14 @@ export const actions = {
 				Authorization: `Bearer ${accessToken}`
 			}
 		});
+
+		if (!response.ok) {
+			error(401, {
+				message: 'User not connected',
+				status: 401
+			});
+		}
+
 		const userInfo = await response.json();
 		return userInfo;
 	}

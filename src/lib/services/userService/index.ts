@@ -51,4 +51,26 @@ export class UserService {
 			throw new Error('An error occured on update user');
 		}
 	}
+
+	public async checkAndUpdateUserCalls(email: string): Promise<boolean> {
+		const user = await prisma.user.findUnique({
+			where: { email },
+			select: { totalCalls: true, role: true }
+		});
+
+		if (!user) return false;
+
+		if (user.role === 'USER' && user.totalCalls <= 0) {
+			return false;
+		}
+
+		if (user.role === 'USER') {
+			await prisma.user.update({
+				where: { email },
+				data: { totalCalls: user.totalCalls - 1 }
+			});
+		}
+
+		return true;
+	}
 }

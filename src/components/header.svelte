@@ -1,7 +1,12 @@
 <script lang="ts">
 	import SignUpModal from '../views/home/signup/signUpModal.svelte';
 
+	export let isRedirectedFromExtension = false;
 	let isOpen = false;
+
+	$: if (isRedirectedFromExtension) {
+		isOpen = true;
+	}
 </script>
 
 <header class="absolute inset-x-0 top-0 z-50">
