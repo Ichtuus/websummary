@@ -1,4 +1,3 @@
-
 <div
 	class="relative isolate overflow-hidden bg-white px-6 py-24 sm:py-32 lg:overflow-visible lg:px-0"
 >
@@ -148,13 +147,11 @@
 						access to the essential information. Stop wasting hours reading long, complex content.
 						Try WebSummary AI today and transform the way you read and understand the web.
 					</p>
-					<h2 class="mt-16 text-2xl font-bold tracking-tight text-gray-900">
-						Any questions? Contact us
-					</h2>
+					<h2 class="mt-16 text-2xl font-bold tracking-tight text-gray-900">Any questions ?</h2>
 					<button
 						type="button"
 						class="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 mt-6"
-						>Purple</button
+						>Contact us</button
 					>
 				</div>
 			</div>
