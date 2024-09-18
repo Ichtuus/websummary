@@ -1,8 +1,8 @@
 <script lang="ts">
-	import Header from '../../components/header.svelte';
-	import Footer from '../../components/footer.svelte';
-	import BgColorTop from '../../components/bgColorTop.svelte';
-	import BgColorBottom from '../../components/bgColorBottom.svelte';
+	import Header from '@/components/header.svelte';
+	import Footer from '@/components/footer.svelte';
+	import BgColorTop from '@/components/bgColorTop.svelte';
+	import BgColorBottom from '@/components/bgColorBottom.svelte';
 
 	import GetStarted from './getStarted.svelte';
 	import Presentation from './presentation.svelte';

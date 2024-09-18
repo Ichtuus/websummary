@@ -1,6 +1,6 @@
 import { json } from '@sveltejs/kit';
-import { temporarySummariesProvider } from '../../../../lib/temporarySummaries/services/temporarySummariesProvider.provider';
-import { summariesProviderService } from '$lib/summaries/services/summariesProvider.provider';
+import { temporarySummariesProvider } from '@/lib/temporarySummaries/services/temporarySummariesProvider.provider';
+import { summariesProviderService } from '@/lib/summaries/services/summariesProvider.provider';
 
 export const DELETE = async ({ params, url }) => {
 	const { summaryId } = params;

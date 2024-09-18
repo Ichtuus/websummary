@@ -1,6 +1,7 @@
 <script>
-	import Form from '../../../components/form.base.svelte';
-	import Input from '../../../components/input.base.svelte';
+
+	import Form from '@/components/form.base.svelte';
+	import Input from '@/components/input.base.svelte';
 </script>
 
 <h2 class="text-3xl mb-3">Settings</h2>

@@ -1,5 +1,5 @@
 <script>
-	import Dashboard from '../../views/dashboard/dashboard.svelte';
+	import Dashboard from '@/views/dashboard/dashboard.svelte';
 	export let data;
 </script>
 

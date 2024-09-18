@@ -1,8 +1,8 @@
 import { json, type RequestEvent } from '@sveltejs/kit';
 import { temporarySummariesProvider } from '$lib/temporarySummaries/services/temporarySummariesProvider.provider';
-import { prisma } from '$lib/prisma';
+import { prisma } from '@/lib/prisma';
 import { actions } from '../../+page.server';
-import { summariesProviderService } from '$lib/summaries/services/summariesProvider.provider';
+import { summariesProviderService } from '@/lib/summaries/services/summariesProvider.provider';
 
 export const GET = async (event: RequestEvent) => {
 	const accessToken = event.cookies.get('access_token');

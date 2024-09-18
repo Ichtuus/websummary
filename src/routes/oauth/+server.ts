@@ -30,7 +30,6 @@ export const GET = async ({ url, cookies }) => {
 			}
 		});
 	} else {
-		// Mettre à jour les tokens si l'utilisateur existe déjà
 		await prisma.user.update({
 			where: {
 				email: userInfo?.email

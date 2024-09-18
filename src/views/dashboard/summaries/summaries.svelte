@@ -1,8 +1,7 @@
 <script lang="ts">
-	import { fade } from 'svelte/transition';
 	import { ESummaryActions, type Summary } from '../types';
 	import { actions } from '../constant';
-	import SummaryActions from '../components/summaryActions.svelte';
+	import SummaryActions from '@/views/dashboard/components/summaryActions.svelte';
 	import { useMutation } from '@sveltestack/svelte-query';
 	import { apiClient } from '$lib/api/client';
 	import { ENDPOINTS } from '$lib/api/client/endpoints';

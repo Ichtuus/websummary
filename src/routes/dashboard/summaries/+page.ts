@@ -1,4 +1,4 @@
-import type { Summary, TemporaryPrediction } from '../../../views/dashboard/types';
+import type { Summary, TemporaryPrediction } from '@/views/dashboard/types';
 
 export const load = async ({ fetch }) => {
 	const response = await fetch('/dashboard/summaries');

@@ -1,5 +1,5 @@
 <script>
-	import Sidebar from '../../views/dashboard/components/sidebar.svelte';
+	import Sidebar from '@/views/dashboard/components/sidebar.svelte';
 	import { HomeSolid, InboxSolid, CogSolid } from 'flowbite-svelte-icons';
 
 	const sidebarListItem = [

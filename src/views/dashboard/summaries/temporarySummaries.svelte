@@ -3,7 +3,7 @@
 	import { ENDPOINTS } from '$lib/api/client/endpoints';
 	import { InfoCircleOutline } from 'flowbite-svelte-icons';
 	import { useMutation } from '@sveltestack/svelte-query';
-	import SummaryActions from '../components/summaryActions.svelte';
+	import SummaryActions from '@/views/dashboard/components/summaryActions.svelte';
 	import { ESummaryActions, type TemporaryPrediction } from '../types';
 	import { invalidate } from '$app/navigation';
 	import { actions } from '../constant';
