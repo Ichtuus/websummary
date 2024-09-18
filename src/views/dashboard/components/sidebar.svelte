@@ -1,4 +1,7 @@
 <script lang="ts">
+	import { CloseOutline } from 'flowbite-svelte-icons';
+	import { createEventDispatcher } from 'svelte';
+
 	interface ISidebarListItem {
 		label: string;
 		link: string;
@@ -6,18 +9,38 @@
 	}
 
 	export let sidebarListItem: ISidebarListItem[];
+	export let isOpen = false;
+	let classSidebar: string;
+	const dispatch = createEventDispatcher();
+
 	const logout = async () => {
 		await fetch('/api/oauth/logout');
 		location.href = '/';
 	};
+
+	const closeSidebar = () => {
+		isOpen = false;
+		dispatch('close:sidebar', isOpen);
+	};
+
+	$: {
+		isOpen;
+		classSidebar = isOpen ? 'translate-x-0' : '-translate-x-full';
+	}
 </script>
 
 <aside
 	id="default-sidebar"
-	class="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0"
+	class="fixed top-0 left-0 z-40 w-64 h-screen transition-transform {classSidebar}"
 	aria-label="Sidebar"
 >
 	<div class="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
+		<div class="flex justify-end">
+			<button on:click={closeSidebar}>
+				<CloseOutline size="lg" color="white" />
+			</button>
+		</div>
+
 		<ul class="space-y-2 font-medium">
 			{#each sidebarListItem as sidebarItem}
 				<li>

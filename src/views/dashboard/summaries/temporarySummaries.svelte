@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { apiClient } from '$lib/api/client';
 	import { ENDPOINTS } from '$lib/api/client/endpoints';
-	import { InfoCircleOutline } from 'flowbite-svelte-icons';
+	import { InfoCircleOutline } from 'flowbite-svelte-icons'
 	import { useMutation } from '@sveltestack/svelte-query';
 	import SummaryActions from '@/views/dashboard/components/summaryActions.svelte';
 	import { ESummaryActions, type TemporaryPrediction } from '../types';
