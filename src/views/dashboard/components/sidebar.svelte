@@ -25,7 +25,7 @@
 
 	$: {
 		isOpen;
-		classSidebar = isOpen ? 'translate-x-0' : '-translate-x-full';
+		classSidebar = isOpen ? 'translate-x-0' : '-translate-x-full sm:translate-x-0';
 	}
 </script>
 
@@ -35,7 +35,7 @@
 	aria-label="Sidebar"
 >
 	<div class="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
-		<div class="flex justify-end">
+		<div class="flex justify-end sm:hidden">
 			<button on:click={closeSidebar}>
 				<CloseOutline size="lg" color="white" />
 			</button>
