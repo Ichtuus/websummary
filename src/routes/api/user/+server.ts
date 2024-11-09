@@ -1,28 +1,24 @@
-import { json, RequestEvent } from '@sveltejs/kit';
-import prisma from '$lib/prisma';
-
+import { json, type RequestEvent } from '@sveltejs/kit';
+import { prisma } from '@/lib/prisma';
+import { actions } from '@/routes/+page.server';
 
 export const GET = async (event: RequestEvent) => {
-  const { id_token } = event.params; // Récupère l'id de l'utilisateur depuis l'URL
+	const accessToken = event.cookies.get('access_token');
+	const userInfo = await actions.getUserInfo(accessToken as string);
 
-  try {
-    const user = await prisma.user.findUnique({
-      where: {
-        id: parseInt(id_token), // Convertir l'id en entier
-      },
-      include: {
-        summaries: true, 
-      },
-    });
+	const user = await prisma.user.findUnique({
+		where: { email: userInfo.email },
+		select: {
+			id: true,
+			name: true,
+			email: true,
+			createdAt: true
+		}
+	});
 
-    if (!user) {
-      return json({ error: 'User not found' }, { status: 404 });
-    }
+	if (!user) {
+		return json({ error: 'User not found' }, { status: 404 });
+	}
 
-    return json({ user });
-  } catch (error) {
-    return json({ error: 'An error occurred while fetching the user.' }, { status: 500 });
-  } finally {
-    await prisma.$disconnect();
-  }
+	return json(user);
 };
