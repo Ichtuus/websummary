@@ -17,7 +17,12 @@ export const GET = async (event: RequestEvent) => {
 	});
 
 	if (!user) {
-		return json({ error: 'User not found' }, { status: 404 });
+		return new Response(null, {
+			status: 404,
+			headers: {
+				location: '/'
+			}
+		});
 	}
 
 	return json(user);

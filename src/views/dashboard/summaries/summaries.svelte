@@ -11,10 +11,6 @@
 
 	const triggerActionForSummaryAction = ({ detail }: CustomEvent, prediction: Summary) => {
 		switch (detail) {
-			case ESummaryActions.add:
-				console.log('action add summary');
-				add(prediction);
-				break;
 			case ESummaryActions.remove:
 				console.log('action remove summary');
 				remove(prediction.id);
@@ -30,16 +26,8 @@
 		$removemutation.mutate(predictionId);
 	};
 
-	const add = async (summary: any) => {
-		$addmutation.mutate(summary);
-	};
-
 	const removemutation = useMutation(async (predictionId: string) => {
 		return await apiClient.delete(`${ENDPOINTS.summaries}/${predictionId}?mode=summary`);
-	});
-
-	const addmutation = useMutation(async (prediction: Summary) => {
-		return await apiClient.post(`${ENDPOINTS.summaries}`, { prediction });
 	});
 </script>
 
@@ -48,7 +36,7 @@
 		<div class="p-4 mb-6 rounded bg-gray-50">
 			<div class="mb-3 resume-actions">
 				<SummaryActions
-					{actions}
+					actions={actions.filter((action) => action.context.includes('summary'))}
 					isLoading={$removemutation.isLoading}
 					on:action-selected={(emitedEvent) => triggerActionForSummaryAction(emitedEvent, summary)}
 				/>

@@ -1,12 +1,8 @@
-<script lang="ts">
-	export let data;
-</script>
-
-<h1>Welcome, {data.props.user.name}!</h1>
+<h1>Welcome!</h1>
 
 <p class="text-gray-400 dark:text-gray-500">
-	here you will find all the summaries you have generated. <br />
-	I hope you enjoy you're experience !
+	Here you will find all the summaries you have generated. <br />
+	I hope you enjoy your experience!
 </p>
 
 <p class="mt-6 text-gray-400 dark:text-gray-500">

@@ -3,6 +3,7 @@
 	import TemporarySummaries from './temporarySummaries.svelte';
 	import Summaries from './summaries.svelte';
 	import type { Summary, TemporaryPrediction } from '../types';
+	import VoiceRecord from './voiceRecord/voiceRecord.svelte';
 
 	export let data: {
 		props: { temporariesPrediction: TemporaryPrediction[]; summaries: Summary[] };
@@ -26,6 +27,10 @@
 				class="font-medium text-blue-600 dark:text-blue-500 hover:underline inline-flex items-center"
 				>Go <ArrowRightOutline /></a
 			>
+
+			<br />
+			Or if you want you can voice record you're meeting
+			<VoiceRecord />
 		</p>
 	</div>
 {/if}
